@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using static FilmApi.MovieConstructor;
 using static FilmApi.CastConstructor;
+using static FilmApi.ActorProperties;
 using System.Xml;
 
 namespace FilmApi
@@ -32,6 +33,13 @@ namespace FilmApi
                 {
                     MovieUrl();
                 }
+                else if(valg == "2")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Navn på skuspiller: ");
+                    string actorName = Console.ReadLine();
+                    ActorInfo(actorName);
+                }
             }
         }
 
@@ -47,7 +55,6 @@ namespace FilmApi
             foreach (var movie in movies.results)
             {
                 CastConstructor.Root crewInformation = crewinformation.GetCrew(movie.id.ToString());
-                Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("<<========================================================================>>");
                 Console.WriteLine();
@@ -69,6 +76,28 @@ namespace FilmApi
             }
                 Console.ReadLine();
                 Console.Clear();
+        }
+
+        public static void ActorInfo(string name)
+        {
+            Console.Clear();
+            ActorInformation actorInformation = new ActorInformation();
+            ActorProperties.Root actors = actorInformation.GetActor(name);
+            foreach (var actor in actors.results)
+            {
+                Console.WriteLine("<<========================================================================>>");
+                Console.WriteLine($"Name: {actor.name}");
+                Console.WriteLine();
+                Console.WriteLine($"Known For: {actor.known_for_department}");
+                Console.WriteLine();
+                Console.WriteLine("Movies:");
+                foreach (var movie in actor.known_for)
+                {
+                    Console.WriteLine($"Title: {movie.title} | ReleaseData: {movie.release_date}");
+                }
+            }
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 }

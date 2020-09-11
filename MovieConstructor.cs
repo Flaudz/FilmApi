@@ -6,6 +6,10 @@ namespace FilmApi
 {
     public class MovieConstructor
     {
+        public MovieConstructor()
+        {
+
+        }
         public class Result
         {
             public double popularity { get; set; }
